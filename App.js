@@ -7,6 +7,8 @@ import * as Location from "expo-location";
 import { Icon } from "react-native-elements";
 import metroJson from "./json/metro.json"
 import axios from "axios";
+import { VictoryPie } from "victory-native";
+const dataColor = ["#5A5AAD", "#A3D1D1"];
 
 const UBIKE_URL =
   "https://data.ntpc.gov.tw/api/datasets/71CD1490-A2DF-4198-BEF1-318479775E8A/json/preview";
@@ -113,11 +115,17 @@ const  App= () => {
             title={`${site.sna} ${site.sbi}/${site.tot}`}
             description={site.ar}
           >
-           <Image
-              source={require("./img/mrt.png")}
-              style={{ width: 26, height: 28 }}
-              resizeMode="contain"
+          <VictoryPie
+            radius={17}
+            data={[
+              {x:site.tot-site.sbi,y:100-(site.sbi/site.tot)*100},
+              {x:site.sbi,y:(site.sbi/site.tot)*100},
+            ]}
+            colorScale={dataColor}
+            innerRadius={7}
+            labelRadius={10}
             />
+            
            </Marker>
         ))}
       </MapView>
@@ -131,7 +139,7 @@ const  App= () => {
           containerStyle={{
             backgroundColor: "#517fa4",
             position: "absolute",
-            right: 20,
+            right: 25,
             bottom: 40,
           }}
           onPress={getLocation}
@@ -141,22 +149,7 @@ const  App= () => {
   );
 };
 const styles = StyleSheet.create({
-  ring: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    backgroundColor: "#4169E1",
-    borderWidth: 3,
-    borderColor: "#003399",
-  },
-  ring2: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    backgroundColor: "rgba(230,230,250, 0.8)",
-    borderWidth: 3,
-    borderColor: "#003399",
-  },
+  
 });
 
  export default App;
